@@ -1,0 +1,30 @@
+{
+  "name": "TikTok All Favorite Videos Remover",
+  "description": "A Chrome extension to remove all favorite videos on TikTok.",
+  "version": "1.0.1",
+  "author": {
+    "name": "Gabriel de Rezende Gonçalves",
+    "email": "contato@gabireze.com.br",
+    "url": "https://gabireze.com.br/"
+  },
+  "permissions": ["tabs", "scripting"],
+  "host_permissions": ["https://*.tiktok.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    },
+    "default_title": "TikTok Favorite Video Remover",
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 3
+}
