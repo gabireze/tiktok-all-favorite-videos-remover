@@ -7,7 +7,7 @@
     "email": "contato@gabireze.com.br",
     "url": "https://gabireze.com.br/"
   },
-  "permissions": ["tabs", "scripting"],
+  "permissions": ["scripting"],
   "host_permissions": ["https://*.tiktok.com/*"],
   "background": {
     "service_worker": "background.js"
