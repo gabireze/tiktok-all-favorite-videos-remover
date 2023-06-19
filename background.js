@@ -32,7 +32,7 @@ const startFunction = async () => {
 
   const clickFavoriteVideo = async () => {
     try {
-      const firstFavoriteVideo = document.querySelectorAll(".tiktok-yz6ijl-DivWrapper")[0];
+      const firstFavoriteVideo = document.querySelectorAll(".tiktok-1s72ajp-DivWrapper")[0];
       if (firstFavoriteVideo) {
         firstFavoriteVideo.querySelector("a").click();
         console.log("First favorite video opened");
@@ -47,7 +47,7 @@ const startFunction = async () => {
   const clickNextFavoriteAndRemove = async () => {
     try {
       const interval = setInterval(() => {
-        const nextVideoButton = document.querySelector(".tiktok-1sltbs0-ButtonBasicButtonContainer-StyledVideoSwitch");
+        const nextVideoButton = document.querySelector(".tiktok-1s9jpf8-ButtonBasicButtonContainer-StyledVideoSwitch");
         const actionButtons = document.querySelector(".tiktok-1d39a26-DivFlexCenterRow");
         if (actionButtons) {
           const favoriteButton = actionButtons.getElementsByTagName("button")[2];
