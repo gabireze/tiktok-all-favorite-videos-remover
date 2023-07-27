@@ -15,13 +15,11 @@ chrome.runtime.onMessage.addListener(async function (request, sender, sendRespon
 const startFunction = async () => {
   const clickFavoriteTab = async () => {
     try {
-      const favoriteTabButton = document.querySelector(".tiktok-euqeq6-PFavorite") ?? document.querySelector(".tiktok-azvt7w-PFavorite");
+      const favoriteTabButton = document.querySelector(".tiktok-1llobt4-PFavorite") ?? document.querySelector(".tiktok-29o9b2-PFavorite");
       if (favoriteTabButton) {
-        if (favoriteTabButton.className.includes("tiktok-euqeq6-PFavorite")) {
-          favoriteTabButton.click();
-          console.log("Favorite tab opened");
-          await sleep(5000);
-        }
+        favoriteTabButton.click();
+        console.log("Favorite tab opened");
+        await sleep(5000);
       } else {
         console.log("Favorite tab not found");
       }
@@ -32,7 +30,7 @@ const startFunction = async () => {
 
   const clickFavoriteVideo = async () => {
     try {
-      const firstFavoriteVideo = document.querySelectorAll(".tiktok-1s72ajp-DivWrapper")[0];
+      const firstFavoriteVideo = document.querySelectorAll(".tiktok-c83ctf-DivWrapper")[0];
       if (firstFavoriteVideo) {
         firstFavoriteVideo.querySelector("a").click();
         console.log("First favorite video opened");
