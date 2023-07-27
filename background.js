@@ -15,61 +15,96 @@ chrome.runtime.onMessage.addListener(async function (request, sender, sendRespon
 const startFunction = async () => {
   const clickFavoriteTab = async () => {
     try {
-      const favoriteTabButton = document.querySelector(".tiktok-1llobt4-PFavorite") ?? document.querySelector(".tiktok-29o9b2-PFavorite");
-      if (favoriteTabButton) {
-        favoriteTabButton.click();
+      let elements = document.querySelectorAll('[class^="tiktok"]');
+      let elementsArray = Array.from(elements);
+      let divVideoFeedTab = elementsArray.find((element) => {
+        let className = String(element.className);
+        if (className.includes("DivVideoFeedTab")) {
+          return element;
+        }
+      });
+      if (divVideoFeedTab) {
+        let favoriteTab = divVideoFeedTab.querySelector("p:nth-of-type(2)");
+        if (!favoriteTab) {
+          stopScript("Favorite tab not found");
+          return;
+        }
+        favoriteTab.click();
         console.log("Favorite tab opened");
         await sleep(5000);
       } else {
-        console.log("Favorite tab not found");
+        stopScript("DivVideoFeedTab not found");
+        return;
       }
     } catch (error) {
-      console.log("Error clicking favorite tab:", error);
+      stopScript("Error finding or clicking favorite tab:", error);
     }
   };
 
   const clickFavoriteVideo = async () => {
     try {
-      const firstFavoriteVideo = document.querySelectorAll(".tiktok-c83ctf-DivWrapper")[0];
-      if (firstFavoriteVideo) {
-        firstFavoriteVideo.querySelector("a").click();
+      let elements = document.querySelectorAll('[class^="tiktok"]');
+      let elementsArray = Array.from(elements);
+      let firstVideo = elementsArray.find((element) => {
+        let className = String(element.className);
+        if (className.includes("DivPlayerContainer")) {
+          return element;
+        }
+      });
+      if (firstVideo) {
+        firstVideo.click();
         console.log("First favorite video opened");
+        await sleep(5000);
       } else {
-        console.log("You have no favorites");
+        stopScript("You have no favorites");
+        return;
       }
     } catch (error) {
-      console.log("Error clicking favorite video:", error);
+      stopScript("Error finding or clicking favorite video", error);
     }
   };
 
   const clickNextFavoriteAndRemove = async () => {
     try {
+      let elements = document.querySelectorAll('[class^="tiktok"]');
+      let elementsArray = Array.from(elements);
+      let nextVideoButton = elementsArray.filter((element) => {
+        let className = String(element.className);
+        if (className.includes("ButtonBasicButtonContainer-StyledVideoSwitch")) {
+          return element;
+        }
+      })[1];
+      let favoriteButton = elementsArray
+        .find((element) => {
+          let className = String(element.className);
+          if (className.includes("DivFlexCenterRow-StyledWrapper")) {
+            return element;
+          }
+        })
+        .getElementsByTagName("button")[2];
       const interval = setInterval(() => {
-        const nextVideoButton = document.querySelector(".tiktok-1s9jpf8-ButtonBasicButtonContainer-StyledVideoSwitch");
-        const actionButtons = document.querySelector(".tiktok-1d39a26-DivFlexCenterRow");
-        if (actionButtons) {
-          const favoriteButton = actionButtons.getElementsByTagName("button")[2];
-          favoriteButton.click();
-          console.log("Favorite removed");
-        } else {
+        if (!favoriteButton) {
+          clearInterval(interval);
+          stopScript("Error finding favorite button");
+          return;
+        }
+        favoriteButton.click();
+        console.log("Favorite removed");
+        if (!nextVideoButton || nextVideoButton.disabled) {
           clearInterval(interval);
           stopScript("No more favorites");
+          return;
         }
-        if (nextVideoButton && !nextVideoButton.disabled) {
-          nextVideoButton.click();
-          console.log("Next favorite clicked");
-        } else {
-          clearInterval(interval);
-          stopScript("No more favorites");
-        }
+        nextVideoButton.click();
+        console.log("Next favorite clicked");
       }, 2000);
     } catch (error) {
-      console.log("Error clicking next favorite:", error);
+      stopScript("Error clicking next favorite", error);
     }
   };
 
-  const stopScript = (message) => {
-    console.log(`${message}, stopping script`);
+  const stopScript = (message, error = "") => {
+    error ? console.log({ message: `${message}, stopping script.`, error: error }) : console.log(`${message}, stopping script.`);
   };
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
