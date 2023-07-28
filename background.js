@@ -92,7 +92,7 @@ const initiateFavoriteVideosRemoval = async () => {
         console.log("Successfully removed the favorite from the current video.");
         if (!nextVideoButton || nextVideoButton.disabled) {
           clearInterval(interval);
-          stopScript("Script completed: All actions executed successfully");
+          closeVideo();
           return;
         }
         nextVideoButton.click();
@@ -100,6 +100,30 @@ const initiateFavoriteVideosRemoval = async () => {
       }, 2000);
     } catch (error) {
       stopScript("Could not click next favorite video", error);
+    }
+  };
+
+  const closeVideo = async () => {
+    try {
+      let elements = document.querySelectorAll('[class^="tiktok"]');
+      let elementsArray = Array.from(elements);
+      let closeVideoButton = elementsArray.find((element) => {
+        let className = String(element.className);
+        if (className.includes("ButtonBasicButtonContainer-StyledCloseIconContainer")) {
+          return element;
+        }
+      });
+      if (closeVideoButton) {
+        closeVideoButton.click();
+        console.log("Successfully closed the video.");
+        stopScript("Script completed: All actions executed successfully");
+        return;
+      } else {
+        stopScript("Could not find the close video button");
+        return;
+      }
+    } catch (error) {
+      stopScript("Could not close video", error);
     }
   };
 
