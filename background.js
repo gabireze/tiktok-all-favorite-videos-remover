@@ -1,18 +1,18 @@
 chrome.runtime.onMessage.addListener(async function (request, sender, sendResponse) {
-  if (request.action === "startRemoval") {
+  if (request.action === "removeLikedVideos") {
     try {
       const tabs = await chrome.tabs.query({ active: true });
       await chrome.scripting.executeScript({
         target: { tabId: tabs[0].id },
-        func: startFunction,
+        func: initiateFavoriteVideosRemoval,
       });
     } catch (error) {
-      console.log("Error starting removal:", error);
+      console.log({ message: "Error starting removal process.", error: error });
     }
   }
 });
 
-const startFunction = async () => {
+const initiateFavoriteVideosRemoval = async () => {
   const clickFavoriteTab = async () => {
     try {
       let elements = document.querySelectorAll('[class^="tiktok"]');
@@ -26,18 +26,18 @@ const startFunction = async () => {
       if (divVideoFeedTab) {
         let favoriteTab = divVideoFeedTab.querySelector("p:nth-of-type(2)");
         if (!favoriteTab) {
-          stopScript("Favorite tab not found");
+          stopScript("'Favorites' tab not found on the page");
           return;
         }
         favoriteTab.click();
-        console.log("Favorite tab opened");
+        console.log("Successfully opened the 'Favorites' tab.");
         await sleep(5000);
       } else {
-        stopScript("DivVideoFeedTab not found");
+        stopScript("The 'Favorites' tab container not found on the page");
         return;
       }
     } catch (error) {
-      stopScript("Error finding or clicking favorite tab:", error);
+      stopScript("Error finding or clicking the 'Favorites' tab", error);
     }
   };
 
@@ -53,14 +53,14 @@ const startFunction = async () => {
       });
       if (firstVideo) {
         firstVideo.click();
-        console.log("First favorite video opened");
+        console.log("Successfully opened the first favorite video.");
         await sleep(5000);
       } else {
-        stopScript("You have no favorites");
+        stopScript("No favorite videos found. Your favorite videos list is empty");
         return;
       }
     } catch (error) {
-      stopScript("Error finding or clicking favorite video", error);
+      stopScript("Error finding or clicking the first favorite video", error);
     }
   };
 
@@ -85,36 +85,36 @@ const startFunction = async () => {
       const interval = setInterval(() => {
         if (!favoriteButton) {
           clearInterval(interval);
-          stopScript("Error finding favorite button");
+          stopScript("Could not find the favorite button");
           return;
         }
         favoriteButton.click();
-        console.log("Favorite removed");
+        console.log("Successfully removed the favorite from the current video.");
         if (!nextVideoButton || nextVideoButton.disabled) {
           clearInterval(interval);
-          stopScript("No more favorites");
+          stopScript("Script completed: All actions executed successfully");
           return;
         }
         nextVideoButton.click();
-        console.log("Next favorite clicked");
+        console.log("Clicked the next liked video.");
       }, 2000);
     } catch (error) {
-      stopScript("Error clicking next favorite", error);
+      stopScript("Could not click next favorite video", error);
     }
   };
 
   const stopScript = (message, error = "") => {
-    error ? console.log({ message: `${message}, stopping script.`, error: error }) : console.log(`${message}, stopping script.`);
+    error ? console.log({ message: `${message}. Stopping script...`, error: error }) : console.log(`${message}. Stopping script...`);
   };
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   try {
-    console.log("Start function");
+    console.log("Script started: Initiating actions...");
     await clickFavoriteTab();
     await clickFavoriteVideo();
     await clickNextFavoriteAndRemove();
   } catch (error) {
-    console.log("Error in start function:", error);
+    stopScript("Error in script", error);
   }
 };
