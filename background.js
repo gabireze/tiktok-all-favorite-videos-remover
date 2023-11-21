@@ -1,5 +1,5 @@
 chrome.runtime.onMessage.addListener(async function (request, sender, sendResponse) {
-  if (request.action === "removeLikedVideos") {
+  if (request.action === "removeFavoriteVideos") {
     try {
       const tabs = await chrome.tabs.query({ active: true });
       await chrome.scripting.executeScript({
@@ -15,27 +15,14 @@ chrome.runtime.onMessage.addListener(async function (request, sender, sendRespon
 const initiateFavoriteVideosRemoval = async () => {
   const clickFavoriteTab = async () => {
     try {
-      let elements = document.querySelectorAll('[class^="tiktok"]');
-      let elementsArray = Array.from(elements);
-      let divVideoFeedTab = elementsArray.find((element) => {
-        let className = String(element.className);
-        if (className.includes("DivVideoFeedTab")) {
-          return element;
-        }
-      });
-      if (divVideoFeedTab) {
-        let favoriteTab = divVideoFeedTab.querySelector("p:nth-of-type(2)");
-        if (!favoriteTab) {
-          stopScript("'Favorites' tab not found on the page");
-          return;
-        }
-        favoriteTab.click();
-        console.log("Successfully opened the 'Favorites' tab.");
-        await sleep(5000);
-      } else {
-        stopScript("The 'Favorites' tab container not found on the page");
+      const favoriteTab = document.querySelector('[class*="PFavorite"]');
+      if (!favoriteTab) {
+        stopScript("The 'Favorites' tab not found on the page");
         return;
       }
+      favoriteTab.click();
+      console.log("Successfully opened the 'Favorites' tab.");
+      await sleep(5000);
     } catch (error) {
       stopScript("Error finding or clicking the 'Favorites' tab", error);
     }
@@ -43,92 +30,71 @@ const initiateFavoriteVideosRemoval = async () => {
 
   const clickFavoriteVideo = async () => {
     try {
-      let elements = document.querySelectorAll('[class^="tiktok"]');
-      let elementsArray = Array.from(elements);
-      let firstVideo = elementsArray.find((element) => {
-        let className = String(element.className);
-        if (className.includes("DivPlayerContainer")) {
-          return element;
-        }
-      });
-      if (firstVideo) {
-        firstVideo.click();
-        console.log("Successfully opened the first favorite video.");
-        await sleep(5000);
-      } else {
+      const firstVideo = document.querySelector('[class*="DivPlayerContainer"]');
+      if (!firstVideo) {
         stopScript("No favorite videos found. Your favorite videos list is empty");
         return;
       }
+      firstVideo.click();
+      console.log("Successfully opened the first favorite video.");
+      await sleep(5000);
     } catch (error) {
-      stopScript("Error finding or clicking the first favorite video", error);
+      stopScript(`Error finding or clicking the first favorite video: ${error.message}`, error);
     }
   };
 
   const clickNextFavoriteAndRemove = async () => {
     try {
-      let elements = document.querySelectorAll('[class^="tiktok"]');
-      let elementsArray = Array.from(elements);
-      let nextVideoButton = elementsArray.filter((element) => {
-        let className = String(element.className);
-        if (className.includes("ButtonBasicButtonContainer-StyledVideoSwitch")) {
-          return element;
-        }
-      })[1];
-      let favoriteButton = elementsArray
-        .find((element) => {
-          let className = String(element.className);
-          if (className.includes("DivFlexCenterRow-StyledWrapper")) {
-            return element;
-          }
-        })
-        .getElementsByTagName("button")[2];
-      const interval = setInterval(() => {
+      const interval = setInterval(async () => {
+        const nextVideoButton = document.querySelector('[data-e2e="arrow-right"]');
+        const favoriteButton = document.querySelector('[data-e2e="undefined-icon"]');
+
         if (!favoriteButton) {
           clearInterval(interval);
           stopScript("Could not find the favorite button");
           return;
         }
+
         favoriteButton.click();
         console.log("Successfully removed the favorite from the current video.");
+
         if (!nextVideoButton || nextVideoButton.disabled) {
           clearInterval(interval);
           closeVideo();
           return;
         }
+
         nextVideoButton.click();
-        console.log("Clicked the next liked video.");
+        console.log("Clicked the next favorite video.");
       }, 2000);
     } catch (error) {
-      stopScript("Could not click next favorite video", error);
+      clearInterval(interval);
+      stopScript("Error occurred in the favorite video removal process", error);
     }
   };
 
   const closeVideo = async () => {
     try {
-      let elements = document.querySelectorAll('[class^="tiktok"]');
-      let elementsArray = Array.from(elements);
-      let closeVideoButton = elementsArray.find((element) => {
-        let className = String(element.className);
-        if (className.includes("ButtonBasicButtonContainer-StyledCloseIconContainer")) {
-          return element;
-        }
-      });
+      const closeVideoButton = document.querySelector('[data-e2e="browse-close"]');
       if (closeVideoButton) {
         closeVideoButton.click();
         console.log("Successfully closed the video.");
         stopScript("Script completed: All actions executed successfully");
-        return;
       } else {
         stopScript("Could not find the close video button");
-        return;
       }
     } catch (error) {
-      stopScript("Could not close video", error);
+      stopScript("Error occurred while trying to close the video", error);
     }
   };
 
   const stopScript = (message, error = "") => {
-    error ? console.log({ message: `${message}. Stopping script...`, error: error }) : console.log(`${message}. Stopping script...`);
+    let logMessage = `${message}. Stopping script...`;
+    if (error) {
+      console.log({ message: logMessage, error: error });
+    } else {
+      console.log(logMessage);
+    }
   };
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
