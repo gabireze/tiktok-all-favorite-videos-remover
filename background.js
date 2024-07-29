@@ -1,10 +1,17 @@
-chrome.runtime.onMessage.addListener(async function (request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(async function (
+  request,
+  sender,
+  sendResponse
+) {
   if (request.action === "removeFavoriteVideos") {
     try {
-      const tabs = await chrome.tabs.query({ active: true });
+      const tabs = await chrome.tabs.query({
+        active: true,
+        currentWindow: true,
+      });
       await chrome.scripting.executeScript({
         target: { tabId: tabs[0].id },
-        func: initiateFavoriteVideosRemoval,
+        files: ["script.js"],
       });
     } catch (error) {
       console.log({ message: "Error starting removal process.", error: error });
@@ -30,24 +37,35 @@ const initiateFavoriteVideosRemoval = async () => {
 
   const clickFavoriteVideo = async () => {
     try {
-      const firstVideo = document.querySelector('[class*="DivPlayerContainer"]');
+      const firstVideo = document.querySelector(
+        '[class*="DivPlayerContainer"]'
+      );
       if (!firstVideo) {
-        stopScript("No favorite videos found. Your favorite videos list is empty");
+        stopScript(
+          "No favorite videos found. Your favorite videos list is empty"
+        );
         return;
       }
       firstVideo.click();
       console.log("Successfully opened the first favorite video.");
       await sleep(5000);
     } catch (error) {
-      stopScript(`Error finding or clicking the first favorite video: ${error.message}`, error);
+      stopScript(
+        `Error finding or clicking the first favorite video: ${error.message}`,
+        error
+      );
     }
   };
 
   const clickNextFavoriteAndRemove = async () => {
     try {
       const interval = setInterval(async () => {
-        const nextVideoButton = document.querySelector('[data-e2e="arrow-right"]');
-        const favoriteButton = document.querySelector('[data-e2e="undefined-icon"]');
+        const nextVideoButton = document.querySelector(
+          '[data-e2e="arrow-right"]'
+        );
+        const favoriteButton = document.querySelector(
+          '[data-e2e="undefined-icon"]'
+        );
 
         if (!favoriteButton) {
           clearInterval(interval);
@@ -56,7 +74,9 @@ const initiateFavoriteVideosRemoval = async () => {
         }
 
         favoriteButton.click();
-        console.log("Successfully removed the favorite from the current video.");
+        console.log(
+          "Successfully removed the favorite from the current video."
+        );
 
         if (!nextVideoButton || nextVideoButton.disabled) {
           clearInterval(interval);
@@ -75,7 +95,9 @@ const initiateFavoriteVideosRemoval = async () => {
 
   const closeVideo = async () => {
     try {
-      const closeVideoButton = document.querySelector('[data-e2e="browse-close"]');
+      const closeVideoButton = document.querySelector(
+        '[data-e2e="browse-close"]'
+      );
       if (closeVideoButton) {
         closeVideoButton.click();
         console.log("Successfully closed the video.");
