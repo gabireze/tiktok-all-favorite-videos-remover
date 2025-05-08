@@ -1,16 +1,35 @@
 const initiateFavoriteVideosRemoval = async () => {
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const clickProfileTab = async () => {
+    try {
+      const profileButton = document.querySelector('[data-e2e="nav-profile"]');
+      if (!profileButton) {
+        stopScript("The 'Profile' button was not found on the page");
+        return false;
+      }
+      profileButton.click();
+      console.log("Successfully clicked the 'Profile' button.");
+      await sleep(5000);
+      return true;
+    } catch (error) {
+      stopScript("Error clicking the 'Profile' button", error);
+      return false;
+    }
+  };
+
   const clickFavoriteTab = async () => {
     try {
       const favoriteTab = document.querySelector('[class*="PFavorite"]');
       if (!favoriteTab) {
-        stopScript("The 'Favorites' tab not found on the page");
+        stopScript("The 'Favorites' tab was not found on the page");
         return;
       }
       favoriteTab.click();
       console.log("Successfully opened the 'Favorites' tab.");
       await sleep(5000);
     } catch (error) {
-      stopScript("Error finding or clicking the 'Favorites' tab", error);
+      stopScript("Error clicking the 'Favorites' tab", error);
     }
   };
 
@@ -21,7 +40,7 @@ const initiateFavoriteVideosRemoval = async () => {
       );
       if (!firstVideo) {
         stopScript(
-          "No favorite videos found. Your favorite videos list is empty"
+          "No favorite videos found. Your favorite list may be empty."
         );
         return;
       }
@@ -29,10 +48,7 @@ const initiateFavoriteVideosRemoval = async () => {
       console.log("Successfully opened the first favorite video.");
       await sleep(5000);
     } catch (error) {
-      stopScript(
-        `Error finding or clicking the first favorite video: ${error.message}`,
-        error
-      );
+      stopScript("Error opening the first favorite video", error);
     }
   };
 
@@ -48,14 +64,12 @@ const initiateFavoriteVideosRemoval = async () => {
 
         if (!favoriteButton) {
           clearInterval(interval);
-          stopScript("Could not find the favorite button");
+          stopScript("Favorite button not found");
           return;
         }
 
         favoriteButton.click();
-        console.log(
-          "Successfully removed the favorite from the current video."
-        );
+        console.log("Removed favorite from current video.");
 
         if (!nextVideoButton || nextVideoButton.disabled) {
           clearInterval(interval);
@@ -64,11 +78,10 @@ const initiateFavoriteVideosRemoval = async () => {
         }
 
         nextVideoButton.click();
-        console.log("Clicked the next favorite video.");
+        console.log("Moved to next favorite video.");
       }, 2000);
     } catch (error) {
-      clearInterval(interval);
-      stopScript("Error occurred in the favorite video removal process", error);
+      stopScript("Error during favorite video removal", error);
     }
   };
 
@@ -79,13 +92,13 @@ const initiateFavoriteVideosRemoval = async () => {
       );
       if (closeVideoButton) {
         closeVideoButton.click();
-        console.log("Successfully closed the video.");
-        stopScript("Script completed: All actions executed successfully");
+        console.log("Closed video view.");
+        stopScript("All actions executed successfully");
       } else {
         stopScript("Could not find the close video button");
       }
     } catch (error) {
-      stopScript("Error occurred while trying to close the video", error);
+      stopScript("Error closing the video", error);
     }
   };
 
@@ -99,15 +112,15 @@ const initiateFavoriteVideosRemoval = async () => {
     setTimeout(() => window.location.reload(), 1000);
   };
 
-  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
   try {
-    console.log("Script started: Initiating actions...");
+    console.log("Script started...");
+    const wentToProfile = await clickProfileTab();
+    if (!wentToProfile) return;
     await clickFavoriteTab();
     await clickFavoriteVideo();
     await clickNextFavoriteAndRemove();
   } catch (error) {
-    stopScript("Error in script", error);
+    stopScript("Unexpected error in main flow", error);
   }
 };
 
