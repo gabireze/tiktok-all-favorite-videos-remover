@@ -64,5 +64,9 @@ If you find a bug or have an idea for improvement, feel free to open an issue or
 
 This project is licensed under the [MIT License](https://opensource.org/license/mit/).
 
-<!-- GitAds-Verify: RLGNWZFM6UVMU4WTE8B35QUVHB22SUTO -->
+---
 
+## GitAds Sponsored
+[![Sponsored by GitAds](https://gitads.dev/v1/ad-serve?source=gabireze/tiktok-all-favorite-videos-remover@github)](https://gitads.dev/v1/ad-track?source=gabireze/tiktok-all-favorite-videos-remover@github)
+
+<!-- GitAds-Verify: RLGNWZFM6UVMU4WTE8B35QUVHB22SUTO -->
