@@ -61,7 +61,7 @@ const initiateFavoriteVideosRemoval = async () => {
           '[data-e2e="arrow-right"]'
         );
         const favoriteButton = document.querySelector(
-          '[data-e2e="undefined-icon"]'
+          '[data-e2e="browse-favorite-icon"]'
         );
 
         if (!favoriteButton) {
