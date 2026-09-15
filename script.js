@@ -1,129 +1,150 @@
-const initiateFavoriteVideosRemoval = async () => {
-  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+// TikTok favourites remover: rewritten for resilience to TikTok UI changes.
+// If it stops working again, update the selector lists in SELECTORS below.
 
-  const waitForElement = async (selector, timeout = 10000, interval = 200) => {
+(async () => {
+  // ---- Selectors: try each in order. Put the one that works FIRST. ----
+  const SELECTORS = {
+    profileNav: ['[data-e2e="nav-profile"]', 'a[href^="/@"][data-e2e*="profile"]'],
+    favoritesTab: ['[data-e2e="favorites-tab"]', '[class*="PFavorite"]'],
+    favoritesTabText: ["favourites", "favorites"], // text fallback for the tab
+    firstVideo: [
+      '[data-e2e="favorites-item"] a',
+      '[data-e2e="user-post-item"] a',
+      '[class*="DivPlayerContainer"]',
+      'a[href*="/video/"]',
+    ],
+    favoriteButton: [
+      '[data-e2e="favorite-icon"]',
+      '[data-e2e="collect-icon"]',
+      'button[aria-label*="avorite" i]',
+      'button[aria-label*="avourite" i]',
+    ],
+    nextButton: ['[data-e2e="arrow-right"]', 'button[aria-label*="next" i]'],
+    closeButton: ['[data-e2e="browse-close"]', 'button[aria-label*="close" i]'],
+  };
+
+  const STEP_DELAY = 2500; // raise this if TikTok rate-limits you
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  const find = (list) => {
+    for (const sel of list) {
+      const el = document.querySelector(sel);
+      if (el) return { el, sel };
+    }
+    return null;
+  };
+
+  const waitFor = async (list, timeout = 15000) => {
     const start = Date.now();
-    return new Promise((resolve, reject) => {
-      const check = () => {
-        const element = document.querySelector(selector);
-        if (element) return resolve(element);
-        if (Date.now() - start >= timeout) {
-          return reject(new Error(`Timeout: Element ${selector} not found`));
-        }
-        setTimeout(check, interval);
-      };
-      check();
-    });
-  };
-
-  const clickProfileTab = async () => {
-    try {
-      const profileButton = await waitForElement('[data-e2e="nav-profile"]');
-      profileButton.click();
-      console.log("Successfully clicked the 'Profile' button.");
-      await sleep(5000);
-      return true;
-    } catch (error) {
-      stopScript(
-        "The 'Profile' button was not found on the page in time",
-        error
-      );
-      return false;
+    while (Date.now() - start < timeout) {
+      const hit = find(list);
+      if (hit) return hit;
+      await sleep(250);
     }
+    return null;
   };
 
-  const clickFavoriteTab = async () => {
-    try {
-      const favoriteTab = await waitForElement('[class*="PFavorite"]');
-      favoriteTab.click();
-      console.log("Successfully opened the 'Favorites' tab.");
-      await sleep(5000);
-    } catch (error) {
-      stopScript("Error clicking the 'Favorites' tab", error);
-    }
-  };
+  // Show status on the page; DON'T reload, so console logs survive for debugging
+  const banner = document.createElement("div");
+  banner.style.cssText =
+    "position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:999999;" +
+    "background:#111;color:#fff;padding:10px 16px;border-radius:8px;font:14px sans-serif";
+  document.body.appendChild(banner);
+  const status = (msg) => { banner.textContent = `Favourites remover: ${msg}`; console.log("[FavRemover]", msg); };
+  const fail = (msg) => { banner.style.background = "#b00020"; status(`STOPPED: ${msg} (see console)`); };
 
-  const clickFavoriteVideo = async () => {
-    try {
-      const firstVideo = await waitForElement('[class*="DivPlayerContainer"]');
-      firstVideo.click();
-      console.log("Successfully opened the first favorite video.");
-      await sleep(5000);
-    } catch (error) {
-      stopScript("No favorite videos found or unable to open", error);
-    }
-  };
-
-  const clickNextFavoriteAndRemove = async () => {
-    try {
-      const interval = setInterval(async () => {
-        const nextVideoButton = document.querySelector(
-          '[data-e2e="arrow-right"]'
-        );
-        const favoriteButton = document.querySelector(
-          '[data-e2e="undefined-icon"]'
-        );
-
-        if (!favoriteButton) {
-          clearInterval(interval);
-          stopScript("Favorite button not found");
-          return;
-        }
-
-        favoriteButton.click();
-        console.log("Removed favorite from current video.");
-
-        if (!nextVideoButton || nextVideoButton.disabled) {
-          clearInterval(interval);
-          closeVideo();
-          return;
-        }
-
-        nextVideoButton.click();
-        console.log("Moved to next favorite video.");
-      }, 2000);
-    } catch (error) {
-      stopScript("Error during favorite video removal", error);
-    }
-  };
-
-  const closeVideo = async () => {
-    try {
-      const closeVideoButton = document.querySelector(
-        '[data-e2e="browse-close"]'
-      );
-      if (closeVideoButton) {
-        closeVideoButton.click();
-        console.log("Closed video view.");
-        stopScript("All actions executed successfully");
-      } else {
-        stopScript("Could not find the close video button");
-      }
-    } catch (error) {
-      stopScript("Error closing the video", error);
-    }
-  };
-
-  const stopScript = (message, error = "") => {
-    let logMessage = `${message}. Reloading page...`;
-    if (error) {
-      console.log({ message: logMessage, error });
-    } else {
-      console.log(logMessage);
-    }
-    setTimeout(() => window.location.reload(), 1000);
-  };
-
-  try {
-    console.log("Script started...");
-    const wentToProfile = await clickProfileTab();
-    if (!wentToProfile) return;
-    await clickFavoriteTab();
-    await clickFavoriteVideo();
-    await clickNextFavoriteAndRemove();
-  } catch (error) {
-    stopScript("Unexpected error in main flow", error);
+  // 1. Go to profile
+  if (!/\/@[^/]+\/?$/.test(location.pathname)) {
+    const nav = await waitFor(SELECTORS.profileNav);
+    if (!nav) return fail("profile button not found. Are you logged in?");
+    status(`clicking profile (${nav.sel})`);
+    nav.el.click();
+    await sleep(5000);
   }
-};
 
-initiateFavoriteVideosRemoval();
+  // 2. Open Favourites tab
+  let tab = await waitFor(SELECTORS.favoritesTab, 8000);
+  if (!tab) {
+    const el = [...document.querySelectorAll('[role="tab"], p, span, div')]
+      .find((n) => n.children.length === 0 &&
+        SELECTORS.favoritesTabText.includes(n.textContent.trim().toLowerCase()));
+    if (el) tab = { el, sel: "text match" };
+  }
+  if (!tab) return fail("Favourites tab not found");
+  status(`opening Favourites (${tab.sel})`);
+  tab.el.click();
+  await sleep(5000);
+
+  // 3. Open first favourite video
+  const video = await waitFor(SELECTORS.firstVideo);
+  if (!video) return fail("no favourite videos found");
+  status(`opening first video (${video.sel})`);
+  video.el.click();
+  await sleep(4000);
+
+  // 4. Unfavourite -> move to next video, one at a time.
+  // TikTok now shows videos in a scrolling feed with several loaded at once,
+  // so we act on the favourite button of the video nearest the screen centre.
+  const icons = () => [...document.querySelectorAll(SELECTORS.favoriteButton.join(","))]
+    .filter((el) => el.offsetParent !== null);
+
+  const currentIcon = () => {
+    const mid = window.innerHeight / 2;
+    return icons().sort((a, b) => {
+      const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
+      return Math.abs((ra.top + ra.bottom) / 2 - mid) - Math.abs((rb.top + rb.bottom) / 2 - mid);
+    })[0];
+  };
+
+  // Read the favourite count next to the icon, e.g. "1861". Returns null for "1.2K" etc.
+  const countOf = (icon) => {
+    const box = icon.closest("button, div")?.parentElement ?? icon.parentElement;
+    const txt = (box?.querySelector('[data-e2e="favorite-count"]')?.textContent ?? icon.textContent).trim();
+    return /^\d+$/.test(txt) ? parseInt(txt, 10) : null;
+  };
+
+  let removed = 0;
+  let seen = new Set();
+  while (true) {
+    let icon = currentIcon();
+    if (!icon) { await sleep(3000); icon = currentIcon(); }
+    if (!icon) return fail(`favourite button not found after ${removed} removed`);
+    if (seen.has(icon)) break; // didn't move to a new video: end of list
+    seen.add(icon);
+
+    const before = countOf(icon);
+    icon.click();
+    await sleep(STEP_DELAY);
+    const after = countOf(icon);
+
+    if (before !== null && after !== null && after > before) {
+      // Count went UP, so this video wasn't favourited and we just added it. Undo.
+      icon.click();
+      status(`video wasn't favourited, undid click`);
+      await sleep(STEP_DELAY);
+    } else {
+      removed++;
+      status(`removed ${removed}`);
+    }
+
+    // Move to next video: arrow button if present, otherwise scroll to the next one
+    const next = find(SELECTORS.nextButton);
+    if (next && !next.el.disabled) {
+      next.el.click();
+    } else {
+      const all = icons();
+      const nextIcon = all[all.indexOf(icon) + 1];
+      if (nextIcon) {
+        nextIcon.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else {
+        document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", code: "ArrowDown", bubbles: true }));
+        window.scrollBy({ top: window.innerHeight, behavior: "smooth" });
+      }
+    }
+    await sleep(STEP_DELAY);
+  }
+
+  find(SELECTORS.closeButton)?.el.click();
+  banner.style.background = "#1b7f3b";
+  status(`done: ${removed} removed. Refresh Favourites to check; run again if any remain.`);
+})();
