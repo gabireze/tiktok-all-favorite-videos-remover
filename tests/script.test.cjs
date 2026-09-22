@@ -118,6 +118,39 @@ async function testCompleteProgressiveGridCollection() {
   assert.ok(events.indexOf("process:1") < events.indexOf("scroll:1000"));
 }
 
+function testFavoriteCountFormats() {
+  let countText = "Posts 1,234";
+  const { api } = load({
+    querySelector(selector) { return selector === "#posts" ? { get textContent() { return countText; } } : null; },
+    querySelectorAll() { return []; },
+    documentElement: { scrollHeight: 0 },
+    body: { scrollHeight: 0 },
+  });
+  assert.equal(api.getExpectedFavoriteCount(), 1234);
+  countText = "Posts 1.2K";
+  assert.equal(api.getExpectedFavoriteCount(), 1150);
+  countText = "Posts 2M";
+  assert.equal(api.getExpectedFavoriteCount(), 1500000);
+}
+
+async function testIncompleteGridCannotBeVerified() {
+  const documentImpl = {
+    querySelector(selector) {
+      return selector === "#posts" ? { textContent: "Posts 8", getAttribute() { return "true"; } } : null;
+    },
+    querySelectorAll() { return [makeLink("1", "one")]; },
+    documentElement: { scrollHeight: 1000 },
+    body: { scrollHeight: 1000 },
+  };
+  const { api } = load(documentImpl);
+  await assert.rejects(api.collectAllFavoriteItems("sec-test"), (error) => {
+    assert.equal(error.code, "INCOMPLETE_GRID");
+    assert.equal(error.loaded, 1);
+    assert.equal(error.expected, 8);
+    return true;
+  });
+}
+
 async function testCsvFormulaProtectionAndSingleStatus() {
   const { api } = load();
   const item = { id: "1", authorName: "@a", desc: "=SUM(A1:A2)", url: "https://example.test/1" };
@@ -132,6 +165,8 @@ async function testCsvFormulaProtectionAndSingleStatus() {
   await testFavoritesTabSelection();
   await testFinishedPanelHidesRunControls();
   await testCompleteProgressiveGridCollection();
+  testFavoriteCountFormats();
+  await testIncompleteGridCannotBeVerified();
   await testCsvFormulaProtectionAndSingleStatus();
   console.log("script tests: ok");
 })().catch((error) => { console.error(error); process.exitCode = 1; });

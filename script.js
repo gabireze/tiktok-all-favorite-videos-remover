@@ -56,8 +56,16 @@
 
   function getExpectedFavoriteCount() {
     const postsButton = document.querySelector("#posts");
-    const match = postsButton && (postsButton.textContent || "").match(/(\d[\d.,]*)/);
-    return match ? Number(match[1].replace(/[^\d]/g, "")) : null;
+    const match = postsButton && (postsButton.textContent || "").match(/(\d[\d.,]*?)(?:\s*([KMB]))?(?=\s|$)/i);
+    if (!match) return null;
+    if (!match[2]) return Number(match[1].replace(/[^\d]/g, ""));
+    const multiplier = { K: 1e3, M: 1e6, B: 1e9 }[match[2].toUpperCase()];
+    const decimal = match[1].replace(",", ".");
+    const displayed = Number(decimal);
+    if (!Number.isFinite(displayed)) return null;
+    // Compact counts are rounded in the UI. Use their conservative lower bound.
+    const precision = (decimal.split(".")[1] || "").length;
+    return Math.max(0, Math.ceil((displayed - 0.5 * Math.pow(10, -precision)) * multiplier));
   }
 
   async function refreshFavoritesGrid() {
@@ -180,6 +188,7 @@
     let previousCount = -1;
     let previousHeight = -1;
     let page = 0;
+    let highestExpectedCount = null;
 
     if (options.refresh) await refreshFavoritesGrid();
     const postsButton = document.querySelector("#posts");
@@ -208,6 +217,7 @@
         uniqueItems.push(item);
       });
       const expectedCount = getExpectedFavoriteCount();
+      if (expectedCount !== null) highestExpectedCount = Math.max(highestExpectedCount || 0, expectedCount);
       const scrollHeight = Math.max(document.documentElement.scrollHeight || 0, document.body ? document.body.scrollHeight || 0 : 0);
       diagnostics.push({ page: cycle, itemCount: itemsById.size, expectedCount, scrollHeight });
       if (options.onPage) {
@@ -217,7 +227,8 @@
       // TikTok briefly renders "Posts 0" while the Favorites grid is still loading.
       // Treat only a positive count as authoritative; a genuinely empty grid is
       // confirmed by the stability check below after several loading cycles.
-      if (!options.ignoreExpectedCount && expectedCount !== null && expectedCount > 0 && itemsById.size >= expectedCount) break;
+      const compactCount = /\d\s*[KMB](?:\s|$)/i.test(postsButton && postsButton.textContent || "");
+      if (!options.ignoreExpectedCount && !compactCount && expectedCount !== null && expectedCount > 0 && itemsById.size >= expectedCount) break;
       if (itemsById.size === previousCount && scrollHeight === previousHeight) stableCycles++;
       else stableCycles = 0;
       if (stableCycles >= 4) break;
@@ -232,6 +243,13 @@
       }
     }
     window.scrollTo(0, originalScrollY);
+    if (!options.ignoreExpectedCount && highestExpectedCount !== null && highestExpectedCount > itemsById.size) {
+      const error = new Error(`Favorites grid incomplete: loaded ${itemsById.size} of at least ${highestExpectedCount} items`);
+      error.code = "INCOMPLETE_GRID";
+      error.loaded = itemsById.size;
+      error.expected = highestExpectedCount;
+      throw error;
+    }
     return { items: Array.from(itemsById.values()), pages: page, diagnostics };
   }
 
@@ -812,14 +830,18 @@
         if (!targetStillPresent || verificationAttempt === 3) break;
         if (!(await cancellableSleep(verificationAttempt * 2000))) return;
       }
-      panelState.reportVerifiedItems = candidates.filter((item) => !remainingIds.has(item.id));
+      const succeededIds = new Set(panelState.reportItems.map((item) => item.id));
+      panelState.reportVerifiedItems = candidates.filter((item) => succeededIds.has(item.id) && !remainingIds.has(item.id));
       panelState.reportStillPresentItems = candidates.filter((item) => remainingIds.has(item.id));
       panelState.verifiedRemoved = panelState.reportVerifiedItems.length;
       panelState.removed = panelState.verifiedRemoved;
       panelState.stillPresent = panelState.reportStillPresentItems.length;
       panelState.reportReady = true;
 
-      if (panelState.stillPresent === 0) {
+      if (panelState.failed > 0) {
+        finish(substitutePlaceholders(t.statusPartial, [panelState.verifiedRemoved, panelState.stillPresent])
+          || `Finished with verification: ${panelState.verifiedRemoved} removed, ${panelState.stillPresent} still present.`);
+      } else if (panelState.stillPresent === 0) {
         finish(substitutePlaceholders(t.statusVerifiedDone, [panelState.verifiedRemoved]) || `Done and verified: ${panelState.verifiedRemoved} favorites removed.`);
       } else {
         finish(substitutePlaceholders(t.statusPartial, [panelState.verifiedRemoved, panelState.stillPresent])
