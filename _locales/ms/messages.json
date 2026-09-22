@@ -1,0 +1,317 @@
+{
+  "appTitle": {
+    "message": "TikTok All Kegemaran Videos Remover"
+  },
+  "step1": {
+    "message": "Langkah 1: Buka tiktok.com dalam tab baharu dan pastikan anda sudah log masuk ke akaun anda."
+  },
+  "step2": {
+    "message": "Langkah 2: Kembali ke sini dan klik butang di bawah untuk memulakan."
+  },
+  "startButton": {
+    "message": "Imbas dan Padam Kegemaran"
+  },
+  "list1": {
+    "message": "Sambungan ini akan membuka profil TikTok anda"
+  },
+  "list2": {
+    "message": "Pergi ke tab \"Kegemaran\""
+  },
+  "list3": {
+    "message": "Buka setiap video yang telah di-kegemaran"
+  },
+  "list4": {
+    "message": "Alih keluar video daripada kegemaran dan teruskan ke yang seterusnya"
+  },
+  "list5": {
+    "message": "Ulangi sehingga semua kegemaran dipadamkan"
+  },
+  "note": {
+    "message": "Sambungan memeriksa halaman pertama, meminta pengesahan, kemudian memproses satu halaman pada satu masa. Anda boleh menjeda, menghentikan dan memuat turun laporan yang disahkan."
+  },
+  "tip": {
+    "message": "Pengesahan akhir memisahkan pemadaman disahkan, kegemaran yang masih ada dan kegagalan."
+  },
+  "linkLiked": {
+    "message": "Padam Semua Video Disukai"
+  },
+  "linkFavorite": {
+    "message": "Padam Semua Video Kegemaran"
+  },
+  "linkGitHub": {
+    "message": "Repositori GitHub"
+  },
+  "donateTooltip": {
+    "message": "Sokong projek ini"
+  },
+  "notLoggedIn": {
+    "message": "Sign in to TikTok first."
+  },
+  "signInTiktok": {
+    "message": "Sign in to TikTok"
+  },
+  "configTitle": {
+    "message": "Settings"
+  },
+  "useKeywords": {
+    "message": "Filter by keywords (leave unchecked or empty to remove all)"
+  },
+  "intervalMode": {
+    "message": "Interval between removals:"
+  },
+  "intervalRange": {
+    "message": "Between min and max (seconds)"
+  },
+  "intervalSet": {
+    "message": "Fixed values (seconds)"
+  },
+  "seconds": {
+    "message": "sec"
+  },
+  "reportFormat": {
+    "message": "Report format:"
+  },
+  "keywordsPlaceholder": {
+    "message": "e.g. cat, memecoin"
+  },
+  "intervalSetPlaceholder": {
+    "message": "e.g. 1, 3, 5, 7"
+  },
+  "pagePauseLabel": {
+    "message": "Pause between pages (seconds):"
+  },
+  "panelTitle": {
+    "message": "TikTok Kegemaran Remover"
+  },
+  "statusPreparing": {
+    "message": "Preparing…"
+  },
+  "statusPaused": {
+    "message": "Paused"
+  },
+  "statusResuming": {
+    "message": "Resuming…"
+  },
+  "btnPause": {
+    "message": "Pause"
+  },
+  "btnResume": {
+    "message": "Resume"
+  },
+  "btnDownloadReport": {
+    "message": "Download report"
+  },
+  "statusWaiting": {
+    "message": "Waiting for page…"
+  },
+  "statusListing": {
+    "message": "Menyenaraikan kegemaran…"
+  },
+  "statusPageRemoving": {
+    "message": "Page $1$: removing $2$ of $3$ items…",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      },
+      "3": {
+        "content": "$3"
+      }
+    }
+  },
+  "statusDone": {
+    "message": "Done! All kegemaran processed."
+  },
+  "statusNone": {
+    "message": "Tiada kegemaran ditemui."
+  },
+  "statusErrorNoAccount": {
+    "message": "Could not identify your account. Reload TikTok and try again."
+  },
+  "statusErrorRedirectedForyou": {
+    "message": "You were redirected to For You because you're not logged in. Please log in to TikTok, then open the extension and click Start again."
+  },
+  "statusErrorRemove": {
+    "message": "Error removing $1$. Check console.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "panelClose": {
+    "message": "Close"
+  },
+  "statsPages": {
+    "message": "Pages"
+  },
+  "statsRemoved": {
+    "message": "Removed"
+  },
+  "statsListed": {
+    "message": "Listed"
+  },
+  "statsFailed": {
+    "message": "Failed"
+  },
+  "statusStoppedFailures": {
+    "message": "Stopped: $1$ consecutive failures. Download report to see which failed.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "statusBetweenPages": {
+    "message": "Pause before next page…"
+  },
+  "scanButton": {
+    "message": "Analisis tanpa memadam"
+  },
+  "btnStop": {
+    "message": "Berhenti"
+  },
+  "btnCancel": {
+    "message": "Batal"
+  },
+  "btnConfirmRemoval": {
+    "message": "Padam $1$ kegemaran",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "statsMatched": {
+    "message": "Sepadan"
+  },
+  "statsProcessed": {
+    "message": "Diproses"
+  },
+  "statsVerified": {
+    "message": "Disahkan"
+  },
+  "statsRemaining": {
+    "message": "Baki"
+  },
+  "statusCancelled": {
+    "message": "Dihentikan oleh pengguna."
+  },
+  "statusListError": {
+    "message": "Kegemaran tidak dapat dimuatkan."
+  },
+  "statusPageScanning": {
+    "message": "Halaman $1$: $2$ daripada $3$ item sepadan dengan penapis…",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      },
+      "3": {
+        "content": "$3"
+      }
+    }
+  },
+  "statusScanDone": {
+    "message": "Analisis selesai: $1$ daripada $2$ kegemaran sepadan. Tiada yang dipadam.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "statusBetweenScanPages": {
+    "message": "Jeda sebelum halaman imbasan seterusnya…"
+  },
+  "statusRateLimited": {
+    "message": "TikTok menyekat terlalu banyak permintaan buat sementara. Tunggu kira-kira satu jam dan cuba lagi."
+  },
+  "statusSessionRejected": {
+    "message": "TikTok menolak sesi. Muat semula halaman, log masuk semula jika perlu, kemudian cuba lagi."
+  },
+  "statusNoMatches": {
+    "message": "Kegemaran ditemui, tetapi tiada yang sepadan dengan penapis."
+  },
+  "statusReadyToRemove": {
+    "message": "$1$ daripada $2$ kegemaran sepadan. Sahkan pemadaman.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "statusRemovingProgress": {
+    "message": "Memadam $1$ daripada $2$…",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "statusVerifying": {
+    "message": "Mengesahkan hasil dengan TikTok…"
+  },
+  "statusVerificationPage": {
+    "message": "Pengesahan halaman $1$: $2$ kegemaran masih disenaraikan…",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "statusVerifiedDone": {
+    "message": "Selesai dan disahkan: $1$ kegemaran dipadam.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "statusPartial": {
+    "message": "Pengesahan selesai: $1$ dipadam, $2$ masih ada.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "linkReposted": {
+    "message": "Padam Semua Video Siaran Semula"
+  },
+  "statusFavoriteTabUnavailable": {
+    "message": "Tab Kegemaran tidak dapat dibuka. Muat semula profil dan cuba lagi."
+  },
+  "statusReadyPageByPage": {
+    "message": "Halaman pertama: $1$ daripada $2$ item sepadan. Sahkan pemprosesan halaman demi halaman.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "btnConfirmPageByPage": {
+    "message": "Mulakan pemadaman halaman demi halaman"
+  }
+}

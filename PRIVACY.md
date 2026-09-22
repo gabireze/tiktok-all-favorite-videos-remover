@@ -2,30 +2,38 @@
 
 ## Overview
 
-TikTok All Favorite Videos Remover is a Chrome extension designed to help users remove all their favorite videos on TikTok with a single click. We are committed to respecting your privacy and ensuring that your personal data is never collected, stored, or shared.
+TikTok All Favorite Videos Remover is a Chrome extension designed to help users automatically remove all favorite videos from their TikTok profile. We are committed to protecting your privacy and ensuring that no personal data is ever collected, stored, or shared.
 
 ---
 
 ## What Data We Collect
 
-**We do not collect or transmit any personal data.**  
-The extension runs entirely in your browser and does not send any information to external servers.
+**We do not collect or transmit personal data to the developer or any third party.**
+All extension logic runs within your browser. Network requests go only to TikTok to perform the operation you requested.
 
 Specifically:
 - We do **not** collect your TikTok credentials.
-- We do **not** access your TikTok content beyond what is needed to automate the removal of favorites.
-- We do **not** track your browsing activity or behavior.
+- We do **not** access your TikTok content beyond what is necessary to automate the favorite removal.
+- We do **not** track your activity or browsing behavior.
 
 ---
 
 ## How the Extension Works
 
-The extension performs the following actions:
-- Opens [tiktok.com](https://www.tiktok.com) in a new tab.
-- Automates navigation to your profile and Favorites tab.
-- Simulates user actions to remove favorite videos from your account.
+The extension performs the following actions, entirely in your browser:
 
-All actions happen **locally in your browser**. No data is stored or transmitted externally.
+- Opens [tiktok.com](https://www.tiktok.com) in a new browser tab.
+- Navigates to your TikTok profile.
+- Uses TikTok's authenticated page and web endpoint to:
+  - Read favorite videos already displayed in your Favorites grid.
+  - Load the first Favorites grid batch and ask for confirmation before changing anything.
+  - Filter and process one loaded batch at a time; a full pre-scan runs only in read-only analysis mode.
+  - Send requests to remove each confirmed favorite.
+  - Reload and scan the grid again to verify which favorites disappeared and which remain.
+- Shows an in-page control panel to pause, resume, stop, and download a local report.
+
+All requests are made **directly from your browser to TikTok** using your existing session.
+No data is sent to any server controlled by this extension or its developer.
 
 ---
 
@@ -39,18 +47,20 @@ This extension does **not** use any third-party analytics, tracking scripts, or 
 
 The extension uses the following Chrome permissions:
 
-- **`tabs`**: Used to open a TikTok tab and inject automation scripts.
-- **`scripting`**: Required to execute the removal logic on the TikTok page.
-- **`host_permissions`** (`https://www.tiktok.com/*`): Grants access only to TikTok for script execution. No other websites are accessed.
+- **`host_permissions`** (`https://*.tiktok.com/*`): Required so the extension can run only on TikTok pages. No other domains are accessed.
+- **`scripting`**: Needed to run the content script, execute a confirmed removal request in TikTok's page context, and read session data required to identify your account.
+- **`tabs`**: Used to open your TikTok profile, focus an already active run, and communicate with that TikTok tab.
+- **`storage`**: Used to save your local configuration and a temporary active-job marker. Stale markers automatically expire after 12 hours.
 
-These permissions are strictly necessary to fulfill the core functionality of the extension.
+These permissions are the minimum required for the extension to perform its intended function.
+They are never used to collect analytics, track you across sites, or send data to external services.
 
 ---
 
 ## Contact
 
-If you have any questions or privacy concerns, feel free to reach out:
+If you have any questions or concerns regarding privacy, feel free to reach out:
 
-**Developer:** Gabriel de Rezende Gonçalves  
-**GitHub:** [gabireze](https://github.com/gabireze)
-
+**Developer:** Gabriel de Rezende Gonçalves
+**Website:** [gabireze.com.br](https://gabireze.com.br)
+**GitHub:** [github.com/gabireze](https://github.com/gabireze)

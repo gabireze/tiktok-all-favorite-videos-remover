@@ -1,0 +1,317 @@
+{
+  "appTitle": {
+    "message": "TikTok All Favorite Videos Remover"
+  },
+  "step1": {
+    "message": "Adım 1: Yeni bir sekmede tiktok.com'u açın ve hesabınıza giriş yaptığınızdan emin olun."
+  },
+  "step2": {
+    "message": "Adım 2: Buraya geri dönün ve başlamak için aşağıdaki butona tıklayın."
+  },
+  "startButton": {
+    "message": "Favorileri Tara ve Kaldır"
+  },
+  "list1": {
+    "message": "Eklenti TikTok profilinizi açacak"
+  },
+  "list2": {
+    "message": "\"Favoriler\" sekmesine gidin"
+  },
+  "list3": {
+    "message": "Favorilere eklenen her videoyu açın"
+  },
+  "list4": {
+    "message": "Videoyu favorilerden kaldırın ve bir sonrakine geçin"
+  },
+  "list5": {
+    "message": "Tüm favoriler kaldırılana kadar tekrarlayın"
+  },
+  "note": {
+    "message": "Uzantı ilk sayfayı kontrol eder, onay ister ve ardından sayfaları tek tek işler. Duraklatabilir, durdurabilir ve doğrulanmış raporu indirebilirsiniz."
+  },
+  "tip": {
+    "message": "Son doğrulama onaylanan kaldırmaları, kalan favoriları ve hataları ayrı ayrı gösterir."
+  },
+  "linkLiked": {
+    "message": "Tüm Beğenilen Videoları Kaldır"
+  },
+  "linkFavorite": {
+    "message": "Tüm Favori Videoları Kaldır"
+  },
+  "linkGitHub": {
+    "message": "GitHub Deposu"
+  },
+  "donateTooltip": {
+    "message": "Projeyi destekle"
+  },
+  "notLoggedIn": {
+    "message": "Sign in to TikTok first."
+  },
+  "signInTiktok": {
+    "message": "Sign in to TikTok"
+  },
+  "configTitle": {
+    "message": "Settings"
+  },
+  "useKeywords": {
+    "message": "Filter by keywords (leave unchecked or empty to remove all)"
+  },
+  "intervalMode": {
+    "message": "Interval between removals:"
+  },
+  "intervalRange": {
+    "message": "Between min and max (seconds)"
+  },
+  "intervalSet": {
+    "message": "Fixed values (seconds)"
+  },
+  "seconds": {
+    "message": "sec"
+  },
+  "reportFormat": {
+    "message": "Report format:"
+  },
+  "keywordsPlaceholder": {
+    "message": "e.g. cat, memecoin"
+  },
+  "intervalSetPlaceholder": {
+    "message": "e.g. 1, 3, 5, 7"
+  },
+  "pagePauseLabel": {
+    "message": "Pause between pages (seconds):"
+  },
+  "panelTitle": {
+    "message": "TikTok Favorites Remover"
+  },
+  "statusPreparing": {
+    "message": "Preparing…"
+  },
+  "statusPaused": {
+    "message": "Paused"
+  },
+  "statusResuming": {
+    "message": "Resuming…"
+  },
+  "btnPause": {
+    "message": "Pause"
+  },
+  "btnResume": {
+    "message": "Resume"
+  },
+  "btnDownloadReport": {
+    "message": "Download report"
+  },
+  "statusWaiting": {
+    "message": "Waiting for page…"
+  },
+  "statusListing": {
+    "message": "Favoriler listeleniyor…"
+  },
+  "statusPageRemoving": {
+    "message": "Page $1$: removing $2$ of $3$ items…",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      },
+      "3": {
+        "content": "$3"
+      }
+    }
+  },
+  "statusDone": {
+    "message": "Done! All favoris processed."
+  },
+  "statusNone": {
+    "message": "Favori bulunamadı."
+  },
+  "statusErrorNoAccount": {
+    "message": "Could not identify your account. Reload TikTok and try again."
+  },
+  "statusErrorRedirectedForyou": {
+    "message": "You were redirected to For You because you're not logged in. Please log in to TikTok, then open the extension and click Start again."
+  },
+  "statusErrorRemove": {
+    "message": "Error removing $1$. Check console.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "panelClose": {
+    "message": "Close"
+  },
+  "statsPages": {
+    "message": "Pages"
+  },
+  "statsRemoved": {
+    "message": "Removed"
+  },
+  "statsListed": {
+    "message": "Listed"
+  },
+  "statsFailed": {
+    "message": "Failed"
+  },
+  "statusStoppedFailures": {
+    "message": "Stopped: $1$ consecutive failures. Download report to see which failed.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "statusBetweenPages": {
+    "message": "Pause before next page…"
+  },
+  "scanButton": {
+    "message": "Kaldırmadan analiz et"
+  },
+  "btnStop": {
+    "message": "Durdur"
+  },
+  "btnCancel": {
+    "message": "İptal"
+  },
+  "btnConfirmRemoval": {
+    "message": "$1$ favoriu kaldır",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "statsMatched": {
+    "message": "Eşleşen"
+  },
+  "statsProcessed": {
+    "message": "İşlenen"
+  },
+  "statsVerified": {
+    "message": "Doğrulanan"
+  },
+  "statsRemaining": {
+    "message": "Kalan"
+  },
+  "statusCancelled": {
+    "message": "Kullanıcı tarafından durduruldu."
+  },
+  "statusListError": {
+    "message": "Favoritelar yüklenemedi."
+  },
+  "statusPageScanning": {
+    "message": "$1$. sayfa: $3$ öğeden $2$ tanesi filtreyle eşleşiyor…",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      },
+      "3": {
+        "content": "$3"
+      }
+    }
+  },
+  "statusScanDone": {
+    "message": "Analiz tamamlandı: $2$ favoritan $1$ tanesi eşleşti. Hiçbir şey kaldırılmadı.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "statusBetweenScanPages": {
+    "message": "Sonraki tarama sayfasından önce bekleniyor…"
+  },
+  "statusRateLimited": {
+    "message": "TikTok çok fazla isteği geçici olarak engelledi. Yaklaşık bir saat bekleyip yeniden deneyin."
+  },
+  "statusSessionRejected": {
+    "message": "TikTok oturumu reddetti. Sayfayı yenileyin, gerekirse tekrar oturum açın ve yeniden deneyin."
+  },
+  "statusNoMatches": {
+    "message": "Favoritelar bulundu ancak hiçbiri filtreyle eşleşmiyor."
+  },
+  "statusReadyToRemove": {
+    "message": "$2$ favoritan $1$ tanesi eşleşiyor. Kaldırmayı onaylayın.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "statusRemovingProgress": {
+    "message": "$2$ öğeden $1$ kaldırılıyor…",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "statusVerifying": {
+    "message": "Sonuç TikTok ile doğrulanıyor…"
+  },
+  "statusVerificationPage": {
+    "message": "Doğrulama $1$. sayfa: $2$ favori hâlâ listeleniyor…",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "statusVerifiedDone": {
+    "message": "Tamamlandı ve doğrulandı: $1$ favori kaldırıldı.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "statusPartial": {
+    "message": "Doğrulama tamamlandı: $1$ kaldırıldı, $2$ hâlâ mevcut.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "linkReposted": {
+    "message": "Yeniden Paylaşılan Tüm Videoları Kaldır"
+  },
+  "statusFavoriteTabUnavailable": {
+    "message": "Favoriler sekmesi açılamadı. Profilinizi yenileyip tekrar deneyin."
+  },
+  "statusReadyPageByPage": {
+    "message": "İlk sayfa: $2$ öğeden $1$ tanesi eşleşiyor. Sayfa sayfa işlemeyi onaylayın.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "btnConfirmPageByPage": {
+    "message": "Sayfa sayfa kaldırmayı başlat"
+  }
+}

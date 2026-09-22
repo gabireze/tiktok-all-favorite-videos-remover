@@ -1,0 +1,317 @@
+{
+  "appTitle": {
+    "message": "TikTok All Favorite Videos Remover"
+  },
+  "step1": {
+    "message": "Esteja logado no TikTok, configure as opções abaixo e clique em Iniciar. Um painel abrirá no TikTok com progresso e Pausar/Continuar."
+  },
+  "step2": {
+    "message": "Passo 2: Volte aqui e clique no botão abaixo para iniciar o processo."
+  },
+  "startButton": {
+    "message": "Analisar e Remover Favoritos"
+  },
+  "scanButton": {
+    "message": "Analisar sem remover"
+  },
+  "list1": {
+    "message": "A extensão abrirá seu perfil do TikTok"
+  },
+  "list2": {
+    "message": "Entrará na aba de \"Favoritos\""
+  },
+  "list3": {
+    "message": "Abrirá cada vídeo favoritado"
+  },
+  "list4": {
+    "message": "Removerá dos favoritos e passará para o próximo"
+  },
+  "list5": {
+    "message": "Repetirá até que todos os favoritos sejam removidos"
+  },
+  "note": {
+    "message": "A extensão verifica a primeira página, pede confirmação e depois processa uma página por vez. Você pode pausar, parar e baixar um relatório verificado."
+  },
+  "tip": {
+    "message": "A verificação final separa remoções confirmadas, favoritos restantes e falhas."
+  },
+  "linkLiked": {
+    "message": "Remover Todos os Vídeos Curtidos"
+  },
+  "linkFavorite": {
+    "message": "Remover Todos os Vídeos Favoritos"
+  },
+  "linkGitHub": {
+    "message": "Repositório no GitHub"
+  },
+  "donateTooltip": {
+    "message": "Apoie o projeto"
+  },
+  "notLoggedIn": {
+    "message": "Faça login no TikTok primeiro."
+  },
+  "signInTiktok": {
+    "message": "Fazer login no TikTok"
+  },
+  "configTitle": {
+    "message": "Configurações"
+  },
+  "useKeywords": {
+    "message": "Filtrar por palavras-chave (deixe desmarcado ou vazio para remover todos)"
+  },
+  "intervalMode": {
+    "message": "Intervalo entre remoções:"
+  },
+  "intervalRange": {
+    "message": "Entre min e max (segundos)"
+  },
+  "intervalSet": {
+    "message": "Valores fixos (segundos)"
+  },
+  "seconds": {
+    "message": "seg"
+  },
+  "reportFormat": {
+    "message": "Formato do relatório:"
+  },
+  "keywordsPlaceholder": {
+    "message": "ex: cat, memecoin"
+  },
+  "intervalSetPlaceholder": {
+    "message": "ex: 1, 3, 5, 7"
+  },
+  "pagePauseLabel": {
+    "message": "Pausa entre páginas (segundos):"
+  },
+  "panelTitle": {
+    "message": "TikTok Favoritos Remover"
+  },
+  "statusPreparing": {
+    "message": "Preparando…"
+  },
+  "statusPaused": {
+    "message": "Pausado"
+  },
+  "statusResuming": {
+    "message": "Continuando…"
+  },
+  "btnPause": {
+    "message": "Pausar"
+  },
+  "btnResume": {
+    "message": "Continuar"
+  },
+  "btnDownloadReport": {
+    "message": "Baixar relatório"
+  },
+  "statusWaiting": {
+    "message": "Aguardando página…"
+  },
+  "statusListing": {
+    "message": "Listando favoritos…"
+  },
+  "statusPageRemoving": {
+    "message": "Página $1$: removendo $2$ de $3$ itens…",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      },
+      "3": {
+        "content": "$3"
+      }
+    }
+  },
+  "statusDone": {
+    "message": "Concluído! Todos os favoritos processados."
+  },
+  "statusNone": {
+    "message": "Nenhum favorito encontrado."
+  },
+  "statusErrorNoAccount": {
+    "message": "Não foi possível identificar sua conta. Recarregue o TikTok e tente de novo."
+  },
+  "statusErrorRedirectedForyou": {
+    "message": "Você foi redirecionado ao For You porque não está logado. Faça login no TikTok e clique em Iniciar de novo na extensão."
+  },
+  "statusErrorRemove": {
+    "message": "Erro ao remover $1$. Verifique o console.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "panelClose": {
+    "message": "Fechar"
+  },
+  "statsPages": {
+    "message": "Páginas"
+  },
+  "statsRemoved": {
+    "message": "Removidos"
+  },
+  "statsListed": {
+    "message": "Listados"
+  },
+  "statsFailed": {
+    "message": "Falhas"
+  },
+  "statusStoppedFailures": {
+    "message": "Parado: $1$ falhas seguidas. Baixe o relatório para ver quais falharam.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "statusBetweenPages": {
+    "message": "Pausa antes da próxima página…"
+  },
+  "btnStop": {
+    "message": "Parar"
+  },
+  "btnCancel": {
+    "message": "Cancelar"
+  },
+  "btnConfirmRemoval": {
+    "message": "Remover $1$ favoritos",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "statsMatched": {
+    "message": "Correspondentes"
+  },
+  "statsProcessed": {
+    "message": "Processados"
+  },
+  "statsVerified": {
+    "message": "Confirmados"
+  },
+  "statsRemaining": {
+    "message": "Restantes"
+  },
+  "statusCancelled": {
+    "message": "Interrompido pelo usuário."
+  },
+  "statusListError": {
+    "message": "Não foi possível listar os favoritos."
+  },
+  "statusPageScanning": {
+    "message": "Página $1$: $2$ de $3$ itens correspondem ao filtro…",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      },
+      "3": {
+        "content": "$3"
+      }
+    }
+  },
+  "statusScanDone": {
+    "message": "Análise concluída: $1$ de $2$ favoritos correspondem. Nada foi removido.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "statusBetweenScanPages": {
+    "message": "Pausa antes da próxima página de análise…"
+  },
+  "statusRateLimited": {
+    "message": "O TikTok bloqueou temporariamente o excesso de requisições. Aguarde cerca de uma hora e tente novamente."
+  },
+  "statusSessionRejected": {
+    "message": "O TikTok recusou a sessão. Recarregue a página, entre novamente se necessário e tente de novo."
+  },
+  "statusNoMatches": {
+    "message": "Foram encontrados favoritos, mas nenhum corresponde ao filtro selecionado."
+  },
+  "statusReadyToRemove": {
+    "message": "$1$ de $2$ favoritos correspondem. Confirme para iniciar a remoção.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "statusRemovingProgress": {
+    "message": "Removendo $1$ de $2$…",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "statusVerifying": {
+    "message": "Verificando o resultado diretamente no TikTok…"
+  },
+  "statusVerificationPage": {
+    "message": "Verificação página $1$: $2$ favoritos ainda listados…",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "statusVerifiedDone": {
+    "message": "Concluído e confirmado: $1$ favoritos removidos.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "statusPartial": {
+    "message": "Verificação concluída: $1$ removidos, $2$ ainda presentes.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "linkReposted": {
+    "message": "Remover Todos os Vídeos Republicados"
+  },
+  "statusFavoriteTabUnavailable": {
+    "message": "Não foi possível abrir a aba Favoritos. Recarregue seu perfil e tente novamente."
+  },
+  "statusReadyPageByPage": {
+    "message": "Primeira página: $1$ de $2$ itens correspondem. Confirme para processar uma página por vez.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      },
+      "2": {
+        "content": "$2"
+      }
+    }
+  },
+  "btnConfirmPageByPage": {
+    "message": "Iniciar remoção página por página"
+  }
+}
