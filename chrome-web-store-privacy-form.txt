@@ -18,7 +18,7 @@ The storage permission saves local popup settings and a temporary chrome.storage
 
 --- host permission ---
 
-The https://*.tiktok.com/* host permission is required because the extension reads the user's Favorites grid, performs confirmed removal requests through TikTok's web endpoint, and scans the grid again for verification. No other website host is accessed.
+The https://www.tiktok.com/* host permission is required because the extension reads the user's Favorites grid, performs confirmed removal requests through TikTok's web endpoint, and scans the grid again for verification. No other website host is accessed.
 
 --- Data use ---
 

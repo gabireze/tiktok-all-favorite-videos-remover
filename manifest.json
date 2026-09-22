@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "TikTok All Favorite Videos Remover",
   "description": "Safely scan, confirm, remove, and verify favorite TikTok videos with an in-page panel and local report.",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "author": {
     "name": "Gabriel de Rezende Gonçalves",
     "email": "contato@gabireze.com.br",
@@ -10,7 +10,7 @@
   },
   "homepage_url": "https://chromewebstore.google.com/detail/tiktok-all-favorite-video/cbjkccccmffolddklbkedlndlfokcpbn",
   "permissions": ["scripting", "tabs", "storage"],
-  "host_permissions": ["https://*.tiktok.com/*"],
+  "host_permissions": ["https://www.tiktok.com/*"],
   "background": {
     "service_worker": "background.js"
   },
