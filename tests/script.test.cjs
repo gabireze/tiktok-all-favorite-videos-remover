@@ -149,6 +149,29 @@ async function testIncompleteGridCannotBeVerified() {
     assert.equal(error.expected, 8);
     return true;
   });
+  await assert.rejects(api.collectAllFavoriteItems("sec-test", {
+    ignoreExpectedCount: true,
+    enforceObservedCount: true,
+  }), (error) => error.code === "INCOMPLETE_GRID" && error.loaded === 1 && error.expected === 8);
+}
+
+async function testRemovalWaitsForDelayedGridBatch() {
+  let scrolls = 0;
+  const documentImpl = {
+    querySelector(selector) {
+      return selector === "#posts" ? { textContent: "Posts 2", getAttribute() { return "true"; } } : null;
+    },
+    querySelectorAll() { return scrolls >= 6 ? [makeLink("1", "one"), makeLink("2", "two")] : [makeLink("1", "one")]; },
+    documentElement: { scrollHeight: 1000 },
+    body: { scrollHeight: 1000 },
+  };
+  const { api } = load(documentImpl, { scrollTo(x, y) { if (y === 1000) scrolls++; } });
+  const result = await api.collectAllFavoriteItems("sec-test", {
+    ignoreExpectedCount: true,
+    enforceObservedCount: true,
+  });
+  assert.deepEqual(Array.from(result.items, (item) => item.id), ["1", "2"]);
+  assert.ok(scrolls >= 6);
 }
 
 async function testCsvFormulaProtectionAndSingleStatus() {
@@ -167,6 +190,7 @@ async function testCsvFormulaProtectionAndSingleStatus() {
   await testCompleteProgressiveGridCollection();
   testFavoriteCountFormats();
   await testIncompleteGridCannotBeVerified();
+  await testRemovalWaitsForDelayedGridBatch();
   await testCsvFormulaProtectionAndSingleStatus();
   console.log("script tests: ok");
 })().catch((error) => { console.error(error); process.exitCode = 1; });

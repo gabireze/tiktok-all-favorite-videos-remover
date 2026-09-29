@@ -231,7 +231,10 @@
       if (!options.ignoreExpectedCount && !compactCount && expectedCount !== null && expectedCount > 0 && itemsById.size >= expectedCount) break;
       if (itemsById.size === previousCount && scrollHeight === previousHeight) stableCycles++;
       else stableCycles = 0;
-      if (stableCycles >= 4) break;
+      // A positive count means there are still cards to load. Give TikTok
+      // extra time after a removal before deciding the grid has stalled.
+      const incompleteObservedGrid = options.enforceObservedCount && highestExpectedCount > itemsById.size;
+      if (stableCycles >= (incompleteObservedGrid ? 10 : 4)) break;
       previousCount = itemsById.size;
       previousHeight = scrollHeight;
 
@@ -243,7 +246,8 @@
       }
     }
     window.scrollTo(0, originalScrollY);
-    if (!options.ignoreExpectedCount && highestExpectedCount !== null && highestExpectedCount > itemsById.size) {
+    if ((!options.ignoreExpectedCount || options.enforceObservedCount)
+      && highestExpectedCount !== null && highestExpectedCount > itemsById.size) {
       const error = new Error(`Favorites grid incomplete: loaded ${itemsById.size} of at least ${highestExpectedCount} items`);
       error.code = "INCOMPLETE_GRID";
       error.loaded = itemsById.size;
@@ -735,6 +739,7 @@
         pagePauseMs,
         refresh: true,
         ignoreExpectedCount: true,
+        enforceObservedCount: true,
         async onPage({ page, uniqueItems, total, result }) {
           panelState.pages = page;
           panelState.totalListed = total;
